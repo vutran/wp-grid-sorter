@@ -73,6 +73,28 @@ class WPGridSorter_Mappings
     }
 
     /**
+     * Retrieve the sort keys based on the given post type
+     *
+     * @access public
+     * @return array                An array of sort keys
+     */
+    public function getKeysByPostType($postType)
+    {
+        $returnKeys = array();
+        // Retrieve all keys
+        $keys = $this->getKeys();
+        if ($keys) {
+            // Iterate and filter
+            foreach ($keys as $sortKey => $sortArgs) {
+                // Skip non-matching results
+                if ($sortArgs['post_type'] !== $postType) { continue; }
+                array_push($returnKeys, $sortKey);
+            }
+        }
+        return $returnKeys;
+    }
+
+    /**
      * Retrieve the args for the given sort key
      *
      * @access public
@@ -84,7 +106,7 @@ class WPGridSorter_Mappings
         $returnArgs = false;
         if ($this->hasKeys()) {
             foreach ($this->getKeys() as $sortKey => $sortArgs) {
-                // Skip un-matching
+                // Skip non-matching results
                 if ($sortKey !== $key) { continue; }
                 $returnArgs = $sortArgs;
             }

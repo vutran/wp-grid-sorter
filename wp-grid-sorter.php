@@ -61,6 +61,7 @@ class WPGridSorter
     private function loadInc()
     {
         require_once('inc/functions.php');
+        require_once('inc/hooks.php');
     }
 
     /**
