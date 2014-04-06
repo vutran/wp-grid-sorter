@@ -10,7 +10,7 @@ $postArgs = array(
     'post_type' => $sortArgs['post_type'],
     'orderby' => 'meta_value_num',
     'order' => 'ASC',
-    'meta_key' => $wp_grid_sorter->mappings->getKeyName($sortKey)
+    'meta_key' => $sortKey
 );
 $postQuery = new WP_Query($postArgs);
 
@@ -20,7 +20,7 @@ $unorderedArgs = array(
     'post_type' => $sortArgs['post_type'],
     'meta_query' => array(
         array(
-            'key' => $wp_grid_sorter->mappings->getKeyName($sortKey),
+            'key' => $sortKey,
             'compare' => 'NOT EXISTS'
         )
     )

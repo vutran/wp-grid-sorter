@@ -93,18 +93,6 @@ class WPGridSorter_Mappings
     }
 
     /**
-     * Generate a post meta key name and return it
-     *
-     * @access public
-     * @param string $sortKey
-     * @return string
-     */
-    public function getKeyName($sortKey)
-    {
-        return sprintf('wpgs_sort_%s', $sortKey);
-    }
-
-    /**
      * Updates the post order for the given sort key
      *
      * @param int $postId
@@ -114,8 +102,7 @@ class WPGridSorter_Mappings
      */
     public function update($postId, $sortKey, $orderNumber)
     {
-        $key = $this->getKeyName($sortKey);
-        update_post_meta($postId, $key, $orderNumber);
+        update_post_meta($postId, $sortKey, $orderNumber);
     }
 
 }
