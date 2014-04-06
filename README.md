@@ -8,6 +8,8 @@ Sort your WordPress posts with custom sort keys
 
 ## Arguments
 
+`name` Specify the name to display in the CMS
+
 `post_type` Specify the post type for this key
 
 # How to register a custom sort key
