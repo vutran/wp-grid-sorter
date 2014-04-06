@@ -31,7 +31,7 @@ $unorderedQuery = new WP_Query($unorderedArgs);
 
 <div class="wrap">
 
-    <h1>Editing <?php echo $sortKey; ?></h1>
+    <h1>Editing <?php echo $sortArgs['name']; ?></h1>
 
     <p>Drag each grid item around and click Update to save your order.</p>
 

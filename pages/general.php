@@ -16,7 +16,7 @@ global $wp_grid_sorter;
                 <?php foreach ($wp_grid_sorter->mappings->getKeys() as $sortKey => $sortArgs) : ?>
                 <tr>
                     <th scope="row" class="column-title">
-                        <strong><?php echo $sortKey; ?> (<?php echo $sortArgs['post_type']; ?>)</strong>
+                        <strong><?php echo $sortArgs['name']; ?> (<?php echo $sortArgs['post_type']; ?>)</strong>
                         <div class="row-actions">
                             <span class="edit"><a href="<?php echo admin_url('admin.php?page=wp-grid-sorter/pages/general&key=' . $sortKey); ?>" title="Edit">Edit</a></span>
                         </div>

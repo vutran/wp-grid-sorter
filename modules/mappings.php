@@ -31,6 +31,7 @@ class WPGridSorter_Mappings
      * @access public
      * @param string $sortKey                       A unique key for sorting
      * @param array $args (default: array())        An array of options
+     * @param string $args['name']                  A readable name to display in the CMS
      * @param string $args['post_type']             The post type to sort
      * @return void
      */

@@ -18,6 +18,7 @@ Sort your WordPress posts with custom sort keys
     {
         if (function_exists('wp_grid_sorter_register_sort_key')) {
             $args = array(
+                'name' => 'Home Page Featured',
                 'post_type' => 'post'
             );
             wp_grid_sorter_register_sort_key('home_page_featured', $args);   
