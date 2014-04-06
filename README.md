@@ -12,7 +12,7 @@ Sort your WordPress posts with custom sort keys
 
 `post_type` Specify the post type for this key
 
-# How to register a custom sort key
+# Register a custom sort key
 
 	<?php
     add_action('init', 'site_register_wp_grid_sorters');
@@ -27,3 +27,19 @@ Sort your WordPress posts with custom sort keys
         }
     }
     ?>
+
+# Query posts and order by your custom sort key
+
+This is automatically hooked into [`WP_Query`](http://codex.wordpress.org/Class_Reference/WP_Query). Please refer to the documentation for [order by a meta key](http://codex.wordpress.org/Class_Reference/WP_Query#Order_.26_Orderby_Parameters) in the WordPress Codex.
+
+## Example:
+
+	<?php
+	$args = array(
+		'post_type' => 'post',
+		'order' => 'ASC',
+		'orderby' => 'meta_value_num',
+		'meta_key' => 'home_page_featured'
+	);
+	$myCustomQuery = new WP_Query($args);
+	?>
