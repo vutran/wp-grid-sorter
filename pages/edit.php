@@ -50,7 +50,9 @@ $unorderedQuery = new WP_Query($unorderedArgs);
                             <?php while ($postQuery->have_posts()) : $postQuery->the_post(); ?>
                                 <li class="wpgs-item <?php echo apply_filters('wpgs_grid_item_class', '', $post); ?>">
                                     <input type="hidden" name="order[]" value="<?php the_ID(); ?>" />
-                                    <?php the_title(); ?>
+                                    <?php if (has_post_thumbnail()) : the_post_thumbnail('thumbnail'); endif; ?>
+                                    <h3><?php the_title(); ?></h3>
+                                    <div><?php the_content(); ?></div>
                                 </li>
                             <?php endwhile; ?>
                         <?php endif; ?>
@@ -58,7 +60,9 @@ $unorderedQuery = new WP_Query($unorderedArgs);
                             <?php while ($unorderedQuery->have_posts()) : $unorderedQuery->the_post(); ?>
                                 <li class="wpgs-item <?php echo apply_filters('wpgs_grid_item_class', '', $post); ?>">
                                     <input type="hidden" name="order[]" value="<?php the_ID(); ?>" />
-                                    <?php the_title(); ?>
+                                    <?php if (has_post_thumbnail()) : the_post_thumbnail('thumbnail'); endif; ?>
+                                    <h3><?php the_title(); ?></h3>
+                                    <div><?php the_content(); ?></div>
                                 </li>
                             <?php endwhile; ?>
                         <?php endif; ?>
