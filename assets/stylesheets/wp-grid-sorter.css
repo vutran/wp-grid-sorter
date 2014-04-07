@@ -2,20 +2,32 @@
     list-style-type: none;
 }
 
-.wpgs-grid .wpgs-item {
-    float: left;
-    margin: 15px;
-    width: 100px;
-    height: auto;
-    min-height: 100px;
-    background-color: #fff;
-    border: 1px solid #e5e5e5;
-    font-size: 12px;
-    line-height: 15px;
-    padding: 15px;
-    -webkit-box-shadow: rgba(0, 0, 0, 0.0392157) 0px 1px 1px 0px;
-    -moz-box-shadow: rgba(0, 0, 0, 0.0392157) 0px 1px 1px 0px;
-    -ms-box-shadow: rgba(0, 0, 0, 0.0392157) 0px 1px 1px 0px;
-    -o-box-shadow: rgba(0, 0, 0, 0.0392157) 0px 1px 1px 0px;
-    box-shadow: rgba(0, 0, 0, 0.0392157) 0px 1px 1px 0px;
-}
+    .wpgs-grid .wpgs-item {
+        float: left;
+        margin: 15px;
+        width: 100px;
+        height: auto;
+        min-height: 100px;
+        background-color: #fff;
+        border: 1px solid #e5e5e5;
+        font-size: 12px;
+        line-height: 15px;
+        padding: 15px;
+        -webkit-box-shadow: rgba(0, 0, 0, 0.0392157) 0px 1px 1px 0px;
+        -moz-box-shadow: rgba(0, 0, 0, 0.0392157) 0px 1px 1px 0px;
+        -ms-box-shadow: rgba(0, 0, 0, 0.0392157) 0px 1px 1px 0px;
+        -o-box-shadow: rgba(0, 0, 0, 0.0392157) 0px 1px 1px 0px;
+        box-shadow: rgba(0, 0, 0, 0.0392157) 0px 1px 1px 0px;
+    }
+
+        .wpgs-grid .wpgs-item.wpgs-item-tile-1 {
+            width: 100px;
+        }
+
+        .wpgs-grid .wpgs-item.wpgs-item-tile-2 {
+            width: 200px;
+        }
+
+        .wpgs-grid .wpgs-item.wpgs-item-tile-3 {
+            width: 300px;
+        }

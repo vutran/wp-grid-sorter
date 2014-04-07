@@ -1,6 +1,6 @@
 <?php
 
-global $wp_grid_sorter;
+global $wp_grid_sorter, $post;
 
 $sortKey = esc_attr($_GET['key']);
 $sortArgs = $wp_grid_sorter->mappings->getArgs($sortKey);
@@ -48,7 +48,7 @@ $unorderedQuery = new WP_Query($unorderedArgs);
                     <ol class="wpgs-grid">
                         <?php if ($postQuery->have_posts()) : ?>
                             <?php while ($postQuery->have_posts()) : $postQuery->the_post(); ?>
-                                <li class="wpgs-item">
+                                <li class="wpgs-item <?php echo apply_filters('wpgs_grid_item_class', '', $post); ?>">
                                     <input type="hidden" name="order[]" value="<?php the_ID(); ?>" />
                                     <?php the_title(); ?>
                                 </li>
@@ -56,7 +56,7 @@ $unorderedQuery = new WP_Query($unorderedArgs);
                         <?php endif; ?>
                         <?php if ($unorderedQuery->have_posts()) : ?>
                             <?php while ($unorderedQuery->have_posts()) : $unorderedQuery->the_post(); ?>
-                                <li class="wpgs-item">
+                                <li class="wpgs-item <?php echo apply_filters('wpgs_grid_item_class', '', $post); ?>">
                                     <input type="hidden" name="order[]" value="<?php the_ID(); ?>" />
                                     <?php the_title(); ?>
                                 </li>

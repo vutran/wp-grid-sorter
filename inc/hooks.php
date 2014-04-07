@@ -35,4 +35,19 @@ function wpgs_save_order_number($postId, $post)
     }
 }
 
+add_filter('wpgs_grid_item_class', 'wpgs_apply_grid_item_class', 10, 2);
+
+/**
+ * Apply the grid item class based on the tile size
+ *
+ * @access public
+ * @param string $value
+ * @param WP_Post $post
+ * @return void
+ */
+function wpgs_apply_grid_item_class($value, $post)
+{
+    return 'wpgs-item-tile-' . apply_filters('wpgs_item_tile_size', 1, $post);
+}
+
 ?>
