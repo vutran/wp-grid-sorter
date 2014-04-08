@@ -137,6 +137,8 @@ var wpgs = (function(x) {
             spinner = theForm.find('.spinner');
         // Show spinner
         spinner.show();
+        // Relayout
+        x.getPackery().layout();
         // Submit the form
         theForm.ajaxSubmit({
             data : {
@@ -166,7 +168,6 @@ jQuery(function($) {
         // Set the packery options
         packeryOptions = {
             gutter : 0,
-            rowHeight : 200,
             columnWidth : 200
         },
         // Instantiate the Packery grid
