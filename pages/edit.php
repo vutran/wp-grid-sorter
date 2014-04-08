@@ -57,24 +57,22 @@ if (isset($sortArgs['post_type']) && is_string($sortArgs['post_type'])) {
             <div id="post-body-content">
                 <div id="post-body-content">
                     <ol class="wpgs-grid">
-                        <?php if ($postQuery->have_posts()) : ?>
-                            <?php while ($postQuery->have_posts()) : $postQuery->the_post(); ?>
-                                <li class="item <?php echo apply_filters('wpgs_grid_item_class', '', $post); ?>" data-id="<?php the_ID(); ?>">
-                                    <?php if (has_post_thumbnail()) : the_post_thumbnail('thumbnail'); endif; ?>
-                                    <h3><?php the_title(); ?></h3>
-                                    <div><?php the_content(); ?></div>
-                                </li>
-                            <?php endwhile; ?>
-                        <?php endif; ?>
-                        <?php if ($unorderedQuery && $unorderedQuery->have_posts()) : ?>
-                            <?php while ($unorderedQuery->have_posts()) : $unorderedQuery->the_post(); ?>
-                                <li class="item <?php echo apply_filters('wpgs_grid_item_class', '', $post); ?>" data-id="<?php the_ID(); ?>">
-                                    <?php if (has_post_thumbnail()) : the_post_thumbnail('thumbnail'); endif; ?>
-                                    <h3><?php the_title(); ?></h3>
-                                    <div><?php the_content(); ?></div>
-                                </li>
-                            <?php endwhile; ?>
-                        <?php endif; ?>
+                        <?php
+                        // Display ordered posts items
+                        if ($postQuery->have_posts()) {
+                            while ($postQuery->have_posts()) {
+                                $postQuery->the_post();
+                                do_action('wpgs_grid_item', $post);
+                            }
+                        }
+                        // Display unordered posts items (if available)
+                        if ($unorderedQuery && $unorderedQuery->have_posts()) {
+                            while ($unorderedQuery->have_posts()) {
+                                $unorderedQuery->the_post();
+                                do_action('wpgs_grid_item', $post);
+                            }
+                        }
+                        ?>
                     </ol>
                 </div>
                 <div id="postbox-container-1" class="postbox-container">

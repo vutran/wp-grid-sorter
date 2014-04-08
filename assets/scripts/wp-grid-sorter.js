@@ -4,6 +4,34 @@
 var wpgs = (function(x) {
 
     /**
+     * Event callbacks
+     *
+     * @access private
+     * @var object
+     */
+    var _events = {
+
+            /**
+             * callback when the layout is finished reordering
+             */
+            onLayoutComplete : function()
+            {
+                // Reorder the packery grid
+                wpgs.updateOrder();
+            },
+
+            /**
+             * callback when the an item is repositioned
+             */
+            onDragItemPositioned : function()
+            {
+                // Reorder the packery grid
+                wpgs.updateOrder();
+            }
+
+        };
+
+    /**
      * Sets the packery grid
      *
      * @access public
@@ -44,8 +72,8 @@ var wpgs = (function(x) {
           grid.bindDraggabillyEvents(draggie);
 
           // Update the order when state is changed
-          grid.on('layoutComplete', wpgs.updateOrder);
-          grid.on('dragItemPositioned', wpgs.updateOrder);
+          grid.on('layoutComplete', _events.onLayoutComplete);
+          grid.on('dragItemPositioned', _events.onDragItemPositioned);
         }
     };
 
@@ -103,7 +131,6 @@ var wpgs = (function(x) {
             };
             posts.push(orderData);
         }
-        console.log(posts);
         return posts;
     };
 

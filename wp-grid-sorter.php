@@ -110,6 +110,17 @@ class WPGridSorter
         add_menu_page('Grid Sorter', 'Grid Sorter', 'edit_posts', 'wp-grid-sorter/pages/general', array(&$this->pages, 'general'));
     }
 
+    /**
+     * Retrieve the root plugin path
+     *
+     * @access public
+     * @return string
+     */
+    public function getPath()
+    {
+        return $this->path;
+    }
+
 }
 
 add_action('init', 'wp_grid_sorter_init');
