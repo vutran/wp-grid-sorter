@@ -48,8 +48,7 @@ $unorderedQuery = new WP_Query($unorderedArgs);
                         <li class="grid-sizer"></li>
                         <?php if ($postQuery->have_posts()) : ?>
                             <?php while ($postQuery->have_posts()) : $postQuery->the_post(); ?>
-                                <li class="wpgs-item <?php echo apply_filters('wpgs_grid_item_class', '', $post); ?>">
-                                    <input type="hidden" name="order[]" value="<?php the_ID(); ?>" />
+                                <li class="item <?php echo apply_filters('wpgs_grid_item_class', '', $post); ?>" data-id="<?php the_ID(); ?>">
                                     <?php if (has_post_thumbnail()) : the_post_thumbnail('thumbnail'); endif; ?>
                                     <h3><?php the_title(); ?></h3>
                                     <div><?php the_content(); ?></div>
@@ -58,8 +57,7 @@ $unorderedQuery = new WP_Query($unorderedArgs);
                         <?php endif; ?>
                         <?php if ($unorderedQuery->have_posts()) : ?>
                             <?php while ($unorderedQuery->have_posts()) : $unorderedQuery->the_post(); ?>
-                                <li class="wpgs-item <?php echo apply_filters('wpgs_grid_item_class', '', $post); ?>">
-                                    <input type="hidden" name="order[]" value="<?php the_ID(); ?>" />
+                                <li class="item <?php echo apply_filters('wpgs_grid_item_class', '', $post); ?>" data-id="<?php the_ID(); ?>">
                                     <?php if (has_post_thumbnail()) : the_post_thumbnail('thumbnail'); endif; ?>
                                     <h3><?php the_title(); ?></h3>
                                     <div><?php the_content(); ?></div>

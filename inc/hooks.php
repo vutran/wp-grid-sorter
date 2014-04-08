@@ -47,7 +47,7 @@ add_filter('wpgs_grid_item_class', 'wpgs_apply_grid_item_class', 10, 2);
  */
 function wpgs_apply_grid_item_class($value, $post)
 {
-    return 'wpgs-item-tile-' . apply_filters('wpgs_item_tile_size', 1, $post);
+    return 'w' . apply_filters('wpgs_item_tile_size', 1, $post);
 }
 
 ?>

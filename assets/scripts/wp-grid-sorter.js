@@ -4,6 +4,29 @@
 var wpgs = (function(x) {
 
     /**
+     * Sets the packery grid
+     *
+     * @access public
+     * @param element grid
+     * @return void
+     */
+    x.setPackery = function(grid)
+    {
+        _grid = grid;
+    };
+
+    /**
+     * Retrieve the packery grid
+     *
+     * @access public
+     * @return object
+     */
+    x.getPackery = function()
+    {
+        return _grid;
+    }
+
+    /**
      * Initialize Draggability
      *
      * @access private
@@ -19,6 +42,53 @@ var wpgs = (function(x) {
           var draggie = new Draggabilly(elem);
           // bind Draggabilly events to Packery
           grid.bindDraggabillyEvents(draggie);
+
+          // Update the order when state is changed
+          grid.on('layoutComplete', wpgs.updateOrder);
+          grid.on('dragItemPositioned', wpgs.updateOrder);
+        }
+    };
+
+    /**
+     * Updates the element order
+     *
+     * @access public
+     * @param element grid
+     * @return void
+     */
+    x.updateOrder = function()
+    {
+        var items = this.items;
+        for ( var i = 0, len = items.length; i < len; i++ ) {
+            jQuery(items[i].element).attr('data-order', i);
+        }
+    };
+
+    /**
+     * Retrieve an array of the ordered post ID's
+     *
+     * @access public
+     * @return void
+     */
+    x.getOrder = function()
+    {
+        var
+            // Empty array to hold post ID's
+            posts = [],
+            // The packery item elements
+            items = x.getPackery().getItemElements(),
+            // Set index count
+            i = 0;
+        console.log(items);
+        for (i = 0; i < items.length; i++) {
+            var element = jQuery(items[i]);
+            // Skip the grid sizer
+            if (element.hasClass('grid-sizer')) { continue; }
+            // If the current index equals to the length of the post
+            if (parseInt(element.data('order'), 10) === (posts.length - 1)) {
+                console.log(element.data('id'));
+                posts.push(parseInt(element.data('id'), 10));
+            }
         }
     };
 
@@ -33,10 +103,8 @@ var wpgs = (function(x) {
     x.showMessage = function(status, message)
     {
         statusClass = (status === "success") ? 'updated' : 'error';
-        var
-            html = '<div id="message" class="' + statusClass + ' below-h2"><p>' + message + '</div>',
-            alert = $(html);
-        $('.wpgs-notifications').html(alert);
+        var html = '<div id="message" class="' + statusClass + ' below-h2"><p>' + message + '</div>';
+        jQuery('.wpgs-notifications').html(html);
     };
 
     return x;
@@ -54,7 +122,6 @@ jQuery(function($) {
         container = document.querySelector('.wpgs-grid');
         // Set the packery options
         packeryOptions = {
-            itemSelector : '.wpgs-item',
             gutter : 0,
             columnWidth: container.querySelector('.grid-sizer')
         },
@@ -63,6 +130,9 @@ jQuery(function($) {
 
     // Initialize Draggability for the packery grid
     wpgs.makeDraggable(packeryGrid);
+
+    // Set the packery grid
+    wpgs.setPackery(packeryGrid);
 
     // Bind the submit callback
     $('.wpgs-form').on('submit', function(e) {
