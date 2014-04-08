@@ -58,15 +58,21 @@ var wpgs = (function(x) {
      */
     x.updateOrder = function()
     {
-        var items = x.getPackery().getItemElements(), i = 0;
-        console.log(items);
-        for ( i = 0, len = items.length; i < len; i++ ) {
-            var element = jQuery(items[i]);
+        var
+            i = 0,
+            items = x.getPackery().items,
+            itemElements = x.getPackery().getItemElements(),
+            orderNum = 1,
+            itemsByOrder = [];
+        // Set the order data attributes
+        for (i = 0; i < itemElements.length; i++) {
+            var element = jQuery(itemElements[i]);
             // Skip the grid sizer
             if (element.hasClass('grid-sizer')) { continue; }
             element
-                .attr('data-order', i)
-                .data('order', i);
+                .attr('data-order', orderNum)
+                .data('order', orderNum);
+            orderNum++;
         }
     };
 
@@ -116,6 +122,34 @@ var wpgs = (function(x) {
         jQuery('.wpgs-notifications').html(html);
     };
 
+    /**
+     * Saves the current order of the packery grid
+     *
+     * @access public
+     * @param Event e
+     * @return void
+     */
+    x.saveOrder = function(e)
+    {
+        e.preventDefault();
+        var
+            theForm = jQuery(this),
+            spinner = theForm.find('.spinner');
+        // Show spinner
+        spinner.show();
+        // Submit the form
+        theForm.ajaxSubmit({
+            data : {
+                posts : wpgs.getOrder()
+            },
+            success : function(ret) {
+                // Hide spinner
+                spinner.hide();
+                x.showMessage(ret.status, ret.response.message);
+            }
+        });
+    };
+
     return x;
 
 }(wpgs || {}));
@@ -132,7 +166,8 @@ jQuery(function($) {
         // Set the packery options
         packeryOptions = {
             gutter : 0,
-            columnWidth: container.querySelector('.grid-sizer')
+            rowHeight : 200,
+            columnWidth : 200
         },
         // Instantiate the Packery grid
         packeryGrid = new Packery(container, packeryOptions);
@@ -147,22 +182,6 @@ jQuery(function($) {
     wpgs.updateOrder();
 
     // Bind the submit callback
-    $('.wpgs-form').on('submit', function(e) {
-        e.preventDefault();
-        // Show spinner
-        var spinner = $(this).find('.spinner');
-        spinner.show();
-        // Submit the form
-        $(this).ajaxSubmit({
-            data : {
-                posts : wpgs.getOrder()
-            },
-            success : function(ret) {
-                // Hide spinner
-                spinner.hide();
-                wpgs.showMessage(ret.status, ret.response.message);
-            }
-        });
-    });
+    $('.wpgs-form').on('submit', wpgs.saveOrder);
 
 });

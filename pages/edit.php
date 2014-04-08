@@ -45,7 +45,6 @@ $unorderedQuery = new WP_Query($unorderedArgs);
             <div id="post-body-content">
                 <div id="post-body-content">
                     <ol class="wpgs-grid">
-                        <li class="grid-sizer"></li>
                         <?php if ($postQuery->have_posts()) : ?>
                             <?php while ($postQuery->have_posts()) : $postQuery->the_post(); ?>
                                 <li class="item <?php echo apply_filters('wpgs_grid_item_class', '', $post); ?>" data-id="<?php the_ID(); ?>">
