@@ -191,25 +191,27 @@ jQuery(function($) {
 
     var
         // Retrieve the grid container
-        container = document.querySelector('.wpgs-grid');
+        container = document.querySelector('.wpgs-grid'),
         // Set the packery options
         packeryOptions = {
             gutter : 0,
             columnWidth : 200
         },
         // Instantiate the Packery grid
-        packeryGrid = new Packery(container, packeryOptions);
+        packeryGrid = (container) ? new Packery(container, packeryOptions) : false;
 
-    // Initialize Draggability for the packery grid
-    wpgs.makeDraggable(packeryGrid);
+    if (packeryGrid) {
+        // Initialize Draggability for the packery grid
+        wpgs.makeDraggable(packeryGrid);
 
-    // Set the packery grid
-    wpgs.setPackery(packeryGrid);
+        // Set the packery grid
+        wpgs.setPackery(packeryGrid);
 
-    // Update order
-    wpgs.updateOrder();
+        // Update order
+        wpgs.updateOrder();
 
-    // Bind the submit callback
-    $('.wpgs-form').on('submit', wpgs.saveOrder);
+        // Bind the submit callback
+        $('.wpgs-form').on('submit', wpgs.saveOrder);
+    }
 
 });
