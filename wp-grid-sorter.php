@@ -49,7 +49,7 @@ class WPGridSorter
         $this->pages = new WPGridSorter_Pages($this, WP_GRID_SORTER_PATH . '/pages/');
 
         // Register admin pages
-        $this->registerPages();
+        add_action('admin_menu', array(&$this, 'registerPages'));
     }
 
     /**
