@@ -2,11 +2,11 @@
     list-style-type: none;
 }
 
+    .wpgs-grid .grid-size {
+        width: 33%;
+    }
+
     .wpgs-grid .wpgs-item {
-        float: left;
-        margin: 15px;
-        width: 100px;
-        height: auto;
         background-color: #fff;
         border: 1px solid #e5e5e5;
         font-size: 12px;
@@ -20,13 +20,13 @@
     }
 
         .wpgs-grid .wpgs-item.wpgs-item-tile-1 {
-            width: 100px;
+            width: 33%;
         }
 
         .wpgs-grid .wpgs-item.wpgs-item-tile-2 {
-            width: 200px;
+            width: 66%;
         }
 
         .wpgs-grid .wpgs-item.wpgs-item-tile-3 {
-            width: 300px;
+            width: 100%;
         }
