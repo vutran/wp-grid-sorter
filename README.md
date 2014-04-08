@@ -12,7 +12,7 @@ Sort your WordPress posts with custom sort keys
 
 `post_type` Specify the post type for this key
 
-# Register a custom sort key
+# Register a custom sort key by post type
 
 	<?php
     add_action('init', 'site_register_wp_grid_sorters');
@@ -20,12 +20,29 @@ Sort your WordPress posts with custom sort keys
     {
         if (function_exists('wp_grid_sorter_register_sort_key')) {
             $args = array(
-                'name' => 'Home Page Featured',
+                'name' => 'Sort All Posts',
                 'post_type' => 'post'
             );
-            wp_grid_sorter_register_sort_key('home_page_featured', $args);   
+            wp_grid_sorter_register_sort_key('sort_all_posts', $args);   
         }
     }
+    ?>
+
+# Register a custom sort key by custom WP_Query
+	<?php
+    $args = array(
+        'name' => 'Home Page Featured',
+        'query' => new WP_Query(array(
+            'post_type' => 'post',
+            'meta_query' => array(
+                array(
+                    'key' => 'featured',
+                    'value' => 1
+                )
+            )
+        ))
+    );
+    wp_grid_sorter_register_sort_key('home_page_featured', $args);
     ?>
 
 # Query posts and order by your custom sort key

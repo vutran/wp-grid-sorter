@@ -33,6 +33,7 @@ class WPGridSorter_Mappings
      * @param array $args (default: array())        An array of options
      * @param string $args['name']                  A readable name to display in the CMS
      * @param string $args['post_type']             The post type to sort
+     * @param WP_Query $args['query']               A WP_Query instance of posts
      * @return void
      */
     public function register($sortKey, $args)
@@ -42,11 +43,16 @@ class WPGridSorter_Mappings
             // Create an array for the sort key
             $this->keys[$sortKey] = array();
         }
-        // Check if the post type is set
-        if (post_type_exists($args['post_type'])) {
+        // If post type is a string (actual post type)
+        if (isset($args['post_type']) && is_string($args['post_type'])) {
+            // Check if the post type is set
+            if (post_type_exists($args['post_type'])) {
+                $this->keys[$sortKey] = $args;
+            } else {
+                error_log('Post type does not exist: ' . $args['post_type']);
+            }   
+        } elseif (isset($args['query']) && $args['query'] instanceof WP_Query) {
             $this->keys[$sortKey] = $args;
-        } else {
-            error_log('Post type does not exist: ' . $args['post_type']);
         }
     }
 

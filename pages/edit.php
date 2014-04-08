@@ -5,26 +5,38 @@ global $wp_grid_sorter, $post;
 $sortKey = esc_attr($_GET['key']);
 $sortArgs = $wp_grid_sorter->mappings->getArgs($sortKey);
 
-// Query for ordered posts
-$postArgs = array(
-    'post_type' => $sortArgs['post_type'],
-    'orderby' => 'meta_value_num',
-    'order' => 'ASC',
-    'meta_key' => $sortKey
-);
-$postQuery = new WP_Query($postArgs);
-
-// Query for unordered posts
-$unorderedArgs = array(
-    'post_type' => $sortArgs['post_type'],
-    'meta_query' => array(
-        array(
-            'key' => $sortKey,
-            'compare' => 'NOT EXISTS'
+// Sets the unordered query
+$unorderedQuery = false;
+// If it's a post type sorting
+if (isset($sortArgs['post_type']) && is_string($sortArgs['post_type'])) {
+    // Query for ordered posts
+    $postArgs = array(
+        'post_type' => $sortArgs['post_type'],
+        'orderby' => 'meta_value_num',
+        'order' => 'ASC',
+        'meta_key' => $sortKey
+    );
+    $postQuery = new WP_Query($postArgs);
+    // Query for unordered posts
+    $unorderedArgs = array(
+        'post_type' => $sortArgs['post_type'],
+        'meta_query' => array(
+            array(
+                'key' => $sortKey,
+                'compare' => 'NOT EXISTS'
+            )
         )
-    )
-);
-$unorderedQuery = new WP_Query($unorderedArgs);
+    );
+    $unorderedQuery = new WP_Query($unorderedArgs);   
+} elseif (isset($sortArgs['query']) && $sortArgs['query'] instanceof WP_Query) {
+    // Retrieve the query arguments
+    $postArgs = $sortArgs['query']->query;
+    // Set additional query var for order
+    $postArgs['orderby'] = 'meta_value_num';
+    $postArgs['order'] = 'ASC';
+    $postArgs['meta_key'] = $sortKey;
+    $postQuery = new WP_Query($postArgs);
+}
 
 ?>
 
@@ -54,7 +66,7 @@ $unorderedQuery = new WP_Query($unorderedArgs);
                                 </li>
                             <?php endwhile; ?>
                         <?php endif; ?>
-                        <?php if ($unorderedQuery->have_posts()) : ?>
+                        <?php if ($unorderedQuery && $unorderedQuery->have_posts()) : ?>
                             <?php while ($unorderedQuery->have_posts()) : $unorderedQuery->the_post(); ?>
                                 <li class="item <?php echo apply_filters('wpgs_grid_item_class', '', $post); ?>" data-id="<?php the_ID(); ?>">
                                     <?php if (has_post_thumbnail()) : the_post_thumbnail('thumbnail'); endif; ?>
