@@ -58,17 +58,25 @@ var wpgs = (function(x) {
      */
     x.updateOrder = function()
     {
-        var items = this.items;
-        for ( var i = 0, len = items.length; i < len; i++ ) {
-            jQuery(items[i].element).attr('data-order', i);
+        var items = x.getPackery().getItemElements(), i = 0;
+        console.log(items);
+        for ( i = 0, len = items.length; i < len; i++ ) {
+            var element = jQuery(items[i]);
+            // Skip the grid sizer
+            if (element.hasClass('grid-sizer')) { continue; }
+            element
+                .attr('data-order', i)
+                .data('order', i);
         }
     };
 
     /**
      * Retrieve an array of the ordered post ID's
      *
+     * Each element in the returned array will hold the postId and the orderNum
+     *
      * @access public
-     * @return void
+     * @return array
      */
     x.getOrder = function()
     {
@@ -83,12 +91,14 @@ var wpgs = (function(x) {
             var element = jQuery(items[i]);
             // Skip the grid sizer
             if (element.hasClass('grid-sizer')) { continue; }
-            // If the current index equals to the length of the post
-            if (parseInt(element.data('order'), 10) === (posts.length - 1)) {
-                console.log(element.data('id'));
-                posts.push(parseInt(element.data('id'), 10));
-            }
+            var orderData = {
+                postId : parseInt(element.data('id'), 10),
+                orderNum : parseInt(element.data('order'), 10)
+            };
+            posts.push(orderData);
         }
+        console.log(posts);
+        return posts;
     };
 
     /**
@@ -133,6 +143,9 @@ jQuery(function($) {
     // Set the packery grid
     wpgs.setPackery(packeryGrid);
 
+    // Update order
+    wpgs.updateOrder();
+
     // Bind the submit callback
     $('.wpgs-form').on('submit', function(e) {
         e.preventDefault();
@@ -141,6 +154,9 @@ jQuery(function($) {
         spinner.show();
         // Submit the form
         $(this).ajaxSubmit({
+            data : {
+                posts : wpgs.getOrder()
+            },
             success : function(ret) {
                 // Hide spinner
                 spinner.hide();
