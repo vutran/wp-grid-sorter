@@ -86,24 +86,26 @@ class WPGridSorter
     private function loadAssets()
     {
         // Register third-party packages
-        wp_register_script('draggabilly', plugins_url('assets/scripts/draggabilly.pkgd.min.js', __FILE__));
-        wp_register_script('packery', plugins_url('assets/scripts/packery.pkgd.min.js', __FILE__));
-        // Register the stylesheets/scripts
-        wp_register_style('wp-grid-sorter-main', plugins_url('assets/stylesheets/wp-grid-sorter.css', __FILE__));
-        wp_register_script('wp-grid-sorter-main', plugins_url('assets/scripts/wp-grid-sorter.js', __FILE__), array('jquery', 'jquery-ui-sortable', 'jquery-form', 'draggabilly', 'packery'));
+        if (is_admin()) {
+            wp_register_script('draggabilly', plugins_url('assets/scripts/draggabilly.pkgd.min.js', __FILE__));
+            wp_register_script('packery', plugins_url('assets/scripts/packery.pkgd.min.js', __FILE__));
+            // Register the stylesheets/scripts
+            wp_register_style('wp-grid-sorter-main', plugins_url('assets/stylesheets/wp-grid-sorter.css', __FILE__));
+            wp_register_script('wp-grid-sorter-main', plugins_url('assets/scripts/wp-grid-sorter.js', __FILE__), array('jquery', 'jquery-ui-sortable', 'jquery-form', 'draggabilly', 'packery'));
 
-        // Enqueue the stylesheets/scripts
-        wp_enqueue_style('wp-grid-sorter-main');
-        wp_enqueue_script('wp-grid-sorter-main');
+            // Enqueue the stylesheets/scripts
+            wp_enqueue_style('wp-grid-sorter-main');
+            wp_enqueue_script('wp-grid-sorter-main');
+        }
     }
 
     /**
      * Register custom admin menu pages
      *
-     * @access private
+     * @access public
      * @return void
      */
-    private function registerPages()
+    public function registerPages()
     {
         add_menu_page('Grid Sorter', 'Grid Sorter', 'edit_posts', 'wp-grid-sorter/pages/general', array(&$this->pages, 'general'));
     }

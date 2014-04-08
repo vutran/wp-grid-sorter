@@ -34,9 +34,9 @@ var wpgs = (function(x) {
      */
     x.makeDraggable = function(grid)
     {
-        var itemElems = grid.getItemElements();
+        var itemElems = grid.getItemElements(), i = 0;
         // for each item...
-        for ( var i=0, len = itemElems.length; i < len; i++ ) {
+        for ( i = 0, len = itemElems.length; i < len; i++ ) {
           var elem = itemElems[i];
           // make element draggable with Draggabilly
           var draggie = new Draggabilly(elem);
@@ -79,7 +79,6 @@ var wpgs = (function(x) {
             items = x.getPackery().getItemElements(),
             // Set index count
             i = 0;
-        console.log(items);
         for (i = 0; i < items.length; i++) {
             var element = jQuery(items[i]);
             // Skip the grid sizer
