@@ -1,9 +1,5 @@
 <?php
 
-/**
- * @package Grid Sorter
- * @version 1.0.0
- */
 /*
 Plugin Name: Grid Sorter
 Description: Sort your grid
@@ -14,6 +10,8 @@ Author URI: http://vu-tran.com/
 
 class WPGridSorter
 {
+
+    const VERSION = '1.0.0';
 
     /**
      * The plugins root path
