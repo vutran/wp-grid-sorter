@@ -38,6 +38,10 @@ if (isset($sortArgs['post_type']) && is_string($sortArgs['post_type'])) {
     $postQuery = new WP_Query($postArgs);
     // Query for unordered posts
     $unorderedArgs = $sortArgs['query']->query;
+    array_push($unorderedArgs['meta_query'], array(
+        'key' => $sortKey,
+        'compare' => 'NOT EXISTS'
+    ));
     $unorderedQuery = new WP_Query($unorderedArgs);
 }
 
