@@ -89,9 +89,11 @@ class WPGridSorter_Mappings
         $returnKeys = array();
         // Retrieve all keys
         $keys = $this->getKeys();
-        if ($keys) {
+        if ($keys && is_array($keys) && count($keys)) {
             // Iterate and filter
             foreach ($keys as $sortKey => $sortArgs) {
+                // Skip sort keys that are not post types
+                if (!isset($sortArgs['post_type'])) { continue; }
                 // Skip non-matching results
                 if ($sortArgs['post_type'] !== $postType) { continue; }
                 array_push($returnKeys, $sortKey);

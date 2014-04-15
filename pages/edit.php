@@ -27,7 +27,7 @@ if (isset($sortArgs['post_type']) && is_string($sortArgs['post_type'])) {
             )
         )
     );
-    $unorderedQuery = new WP_Query($unorderedArgs);   
+    $unorderedQuery = new WP_Query($unorderedArgs);
 } elseif (isset($sortArgs['query']) && $sortArgs['query'] instanceof WP_Query) {
     // Retrieve the query arguments
     $postArgs = $sortArgs['query']->query;
@@ -36,6 +36,9 @@ if (isset($sortArgs['post_type']) && is_string($sortArgs['post_type'])) {
     $postArgs['order'] = 'ASC';
     $postArgs['meta_key'] = $sortKey;
     $postQuery = new WP_Query($postArgs);
+    // Query for unordered posts
+    $unorderedArgs = $sortArgs['query']->query;
+    $unorderedQuery = new WP_Query($unorderedArgs);
 }
 
 ?>
