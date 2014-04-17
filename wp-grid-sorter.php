@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * @package Grid Sorter
+ * @version 1.0.0
+ */
 /*
 Plugin Name: Grid Sorter
 Description: Sort your grid
@@ -10,8 +14,6 @@ Author URI: http://vu-tran.com/
 
 class WPGridSorter
 {
-
-    const VERSION = '1.0.0';
 
     /**
      * The plugins root path
@@ -85,11 +87,12 @@ class WPGridSorter
     {
         // Register third-party packages
         if (is_admin()) {
-            wp_register_script('draggabilly', plugins_url('assets/scripts/draggabilly.pkgd.min.js', __FILE__));
-            wp_register_script('packery', plugins_url('assets/scripts/packery.pkgd.min.js', __FILE__));
+            wp_register_script('imagesLoaded', plugins_url('assets/scripts/imagesLoaded.js', __FILE__), array('jquery'));
+            wp_register_script('draggabilly', plugins_url('assets/scripts/draggabilly.pkgd.min.js', __FILE__), array('jquery'));
+            wp_register_script('packery', plugins_url('assets/scripts/packery.pkgd.min.js', __FILE__), array('jquery'));
             // Register the stylesheets/scripts
             wp_register_style('wp-grid-sorter-main', plugins_url('assets/stylesheets/wp-grid-sorter.css', __FILE__));
-            wp_register_script('wp-grid-sorter-main', plugins_url('assets/scripts/wp-grid-sorter.js', __FILE__), array('jquery', 'jquery-ui-sortable', 'jquery-form', 'draggabilly', 'packery'));
+            wp_register_script('wp-grid-sorter-main', plugins_url('assets/scripts/wp-grid-sorter.js', __FILE__), array('jquery', 'jquery-ui-sortable', 'jquery-form', 'imagesLoaded', 'draggabilly', 'packery'));
 
             // Enqueue the stylesheets/scripts
             wp_enqueue_style('wp-grid-sorter-main');
@@ -137,5 +140,3 @@ function wp_grid_sorter_init()
     // Instantiate the plugin
     $wp_grid_sorter = new WPGridSorter(WP_GRID_SORTER_PATH);
 }
-
-?>

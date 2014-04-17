@@ -64,6 +64,7 @@ if (isset($sortArgs['post_type']) && is_string($sortArgs['post_type'])) {
             <div id="post-body-content">
                 <div id="post-body-content">
                     <ol class="wpgs-grid">
+                        <li class="grid-sizer"></li>
                         <?php
                         // Display ordered posts items
                         if ($postQuery->have_posts()) {

@@ -74,7 +74,7 @@ function wpgs_display_grid_item($thePost)
     ob_end_clean();
     // Restore post
     $post = $_tmp;
-    echo apply_filters('wpgs_display_grid_item', $html);
+    echo apply_filters('wpgs_display_grid_item', $html, $post);
 }
 
 ?>

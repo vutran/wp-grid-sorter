@@ -12,12 +12,12 @@
     }
 
     .wpgs-grid .grid-sizer {
-        width: 200px;
+        width: 33%;
     }
 
     .wpgs-grid .item {
         float: left;
-        width: 200px;
+        width: 33%;
         background-color: #fff;
         border: 1px solid #e5e5e5;
         font-size: 12px;
@@ -31,10 +31,6 @@
         box-shadow: rgba(0, 0, 0, 0.0392157) 0px 1px 1px 0px;
     }
 
-        .wpgs-grid .item.w2 {
-            width: 400px;
-        }
-
-        .wpgs-grid .item.w3 {
-            width: 600px;
+        .wpgs-grid .item img {
+            width: 100%;
         }
