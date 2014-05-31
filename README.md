@@ -14,7 +14,7 @@ Sort your WordPress posts with custom sort keys
 
 # Register a custom sort key by post type
 
-	<?php
+    <?php
     add_action('init', 'site_register_wp_grid_sorters');
     function site_register_wp_grid_sorters()
     {
@@ -29,7 +29,7 @@ Sort your WordPress posts with custom sort keys
     ?>
 
 # Register a custom sort key by custom WP_Query
-	<?php
+    <?php
     $args = array(
         'name' => 'Home Page Featured',
         'query' => new WP_Query(array(
@@ -51,12 +51,12 @@ This is automatically hooked into [`WP_Query`](http://codex.wordpress.org/Class_
 
 ## Example:
 
-	<?php
-	$args = array(
-		'post_type' => 'post',
-		'order' => 'ASC',
-		'orderby' => 'meta_value_num',
-		'meta_key' => 'home_page_featured'
-	);
-	$myCustomQuery = new WP_Query($args);
-	?>
+    <?php
+    $args = array(
+        'post_type' => 'post',
+        'order' => 'ASC',
+        'orderby' => 'meta_value_num',
+        'meta_key' => 'home_page_featured'
+    );
+    $myCustomQuery = new WP_Query($args);
+    ?>

@@ -3,6 +3,8 @@
  */
 var wpgs = (function(x) {
 
+    var _grid = false;
+
     /**
      * Event callbacks
      *
@@ -51,6 +53,27 @@ var wpgs = (function(x) {
      */
     x.getPackery = function()
     {
+        // If the grid is not intiailized
+        if (!_grid) {
+            var
+                // Retrieve the grid container
+                container = document.querySelector('.wpgs-grid'),
+                // Set the packery options
+                packeryOptions = {
+                    gutter : 0,
+                    columnWidth : container ? container.querySelector('.grid-sizer') : 200,
+                    rowHeight : container ? container.querySelector('.grid-sizer') : 200,
+                    itemSelector : '.item'
+                };
+            // Instantiate the Packery grid
+            _grid = (container) ? new Packery(container, packeryOptions) : false;
+            if (_grid) {
+                // Set the packery grid
+                wpgs.setPackery(_grid);
+                // Initialize Draggability for the packery grid
+                wpgs.makeDraggable(_grid);
+            }
+        }
         return _grid;
     }
 
@@ -58,23 +81,36 @@ var wpgs = (function(x) {
      * Initialize Draggability
      *
      * @access private
+     * @param element packeryGrid           The Packery instance
      * @return void
      */
-    x.makeDraggable = function(grid)
+    x.makeDraggable = function(packeryGrid)
     {
-        var itemElems = grid.getItemElements(), i = 0;
+        var itemElems = packeryGrid.getItemElements(), i = 0;
         // for each item...
         for ( i = 0, len = itemElems.length; i < len; i++ ) {
-          var elem = itemElems[i];
-          // make element draggable with Draggabilly
-          var draggie = new Draggabilly(elem);
-          // bind Draggabilly events to Packery
-          grid.bindDraggabillyEvents(draggie);
-
-          // Update the order when state is changed
-          grid.on('layoutComplete', _events.onLayoutComplete);
-          grid.on('dragItemPositioned', _events.onDragItemPositioned);
+            // Make the item draggable in the given grid
+            x.makeElementDraggable(itemElems[i], packeryGrid);
         }
+    };
+
+    /**
+     * Initialize Draggability for the single item
+     *
+     * @access public
+     * @param element element               The element to make draggable
+     * @param element packeryGrid           The Packery instance
+     * @return void
+     */
+    x.makeElementDraggable = function(element, packeryGrid)
+    {
+      // make element draggable with Draggabilly
+      var draggie = new Draggabilly(element);
+      // bind Draggabilly events to Packery
+      packeryGrid.bindDraggabillyEvents(draggie);
+      // Update the order when state is changed
+      packeryGrid.on('layoutComplete', _events.onLayoutComplete);
+      packeryGrid.on('dragItemPositioned', _events.onDragItemPositioned);
     };
 
     /**
@@ -179,6 +215,38 @@ var wpgs = (function(x) {
         });
     };
 
+    /**
+     * Add more items to the grid
+     *
+     * @access public
+     * @param array items
+     * @return void
+     */
+    x.addItems = function(items)
+    {
+        var
+            packeryGrid = x.getPackery(),
+            container = packeryGrid.element,
+            i = 0,
+            totalItems = items.length;
+        // Wait till all images are loaded
+        imagesLoaded(container, function() {
+            // Append childs
+            for (i = 0; i < totalItems; i++) {
+                packeryGrid.element.appendChild(items[i]);
+            }
+            // Notify packery that items has been appended
+            packeryGrid.appended(items);
+            // Notift draggability that items has been appended
+            x.makeDraggable(packeryGrid);
+            // Wait a bit...
+            setTimeout(function() {
+                // Relayout
+                x.getPackery().layout();
+            }, 250);
+        });
+    };
+
     return x;
 
 }(wpgs || {}));
@@ -192,30 +260,18 @@ jQuery(function($) {
     var
         // Retrieve the grid container
         container = document.querySelector('.wpgs-grid'),
-        // Set the packery options
-        packeryOptions = {
-            gutter : 0,
-            columnWidth : container.querySelector('.grid-sizer'),
-            itemSelector : '.item'
-        },
         packeryGrid = false;
-    // Wait till all images are loaded
-    imagesLoaded(container, function() {
-        // Instantiate the Packery grid
-        packeryGrid = (container) ? new Packery(container, packeryOptions) : false;
-        if (packeryGrid) {
-            // Initialize Draggability for the packery grid
-            wpgs.makeDraggable(packeryGrid);
-
-            // Set the packery grid
-            wpgs.setPackery(packeryGrid);
+    if (container) {
+        // Wait till all images are loaded
+        imagesLoaded(container, function() {
+            // Init the packery grid
+            wpgs.getPackery();
 
             // Update order
             wpgs.updateOrder();
 
             // Bind the submit callback
             $('.wpgs-form').on('submit', wpgs.saveOrder);
-        }
-    });
-
+        });
+    }
 });

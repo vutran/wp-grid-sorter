@@ -36,13 +36,6 @@ if (isset($sortArgs['post_type']) && is_string($sortArgs['post_type'])) {
     $postArgs['order'] = 'ASC';
     $postArgs['meta_key'] = $sortKey;
     $postQuery = new WP_Query($postArgs);
-    // Query for unordered posts
-    $unorderedArgs = $sortArgs['query']->query;
-    array_push($unorderedArgs['meta_query'], array(
-        'key' => $sortKey,
-        'compare' => 'NOT EXISTS'
-    ));
-    $unorderedQuery = new WP_Query($unorderedArgs);
 }
 
 ?>
@@ -63,25 +56,29 @@ if (isset($sortArgs['post_type']) && is_string($sortArgs['post_type'])) {
         <div id="post-body" class="metabox-holder columns-2">
             <div id="post-body-content">
                 <div id="post-body-content">
-                    <ol class="wpgs-grid">
+                    <ol class="wpgs-grid wpgs-grid-<?php echo $sortKey; ?>">
                         <li class="grid-sizer"></li>
                         <?php
-                        // Display ordered posts items
-                        if ($postQuery->have_posts()) {
-                            while ($postQuery->have_posts()) {
-                                $postQuery->the_post();
-                                do_action('wpgs_grid_item', $post);
+                        // If posts are available
+                        if (($postQuery && $postQuery->have_posts()) || ($unorderedQuery && $unorderedQuery->have_posts())) {
+                            // Display ordered posts items
+                            if ($postQuery->have_posts()) {
+                                while ($postQuery->have_posts()) {
+                                    $postQuery->the_post();
+                                    do_action('wpgs_grid_item', $post);
+                                }
                             }
-                        }
-                        // Display unordered posts items (if available)
-                        if ($unorderedQuery && $unorderedQuery->have_posts()) {
-                            while ($unorderedQuery->have_posts()) {
-                                $unorderedQuery->the_post();
-                                do_action('wpgs_grid_item', $post);
+                            // Display unordered posts items (if available)
+                            if ($unorderedQuery && $unorderedQuery->have_posts()) {
+                                while ($unorderedQuery->have_posts()) {
+                                    $unorderedQuery->the_post();
+                                    do_action('wpgs_grid_item', $post);
+                                }
                             }
                         }
                         ?>
                     </ol>
+                    <?php do_action('wpgs_grid_load_more_items'); ?>
                 </div>
                 <div id="postbox-container-1" class="postbox-container">
                     <div class="meta-box-sortables">

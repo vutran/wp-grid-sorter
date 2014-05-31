@@ -31,6 +31,11 @@
         box-shadow: rgba(0, 0, 0, 0.0392157) 0px 1px 1px 0px;
     }
 
+        .wpgs-grid .item.is-dragging {
+            z-index: 999;
+        }
+
         .wpgs-grid .item img {
+            display: block;
             width: 100%;
         }
