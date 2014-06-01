@@ -1,9 +1,9 @@
 === WP Grid Sorter ===
-Contributors: (this should be a list of wordpress.org userid's)
+Contributors: vutran
 Donate link: https://www.gittip.com/vutran/
-Tags: comments, grid, sort, order, masonry, curate
+Tags: grid, sort, order, masonry, curate
 Requires at least: 3.8
-Tested up to: 3.8.3
+Tested up to: 3.9.1
 Stable tag: 1.0.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
